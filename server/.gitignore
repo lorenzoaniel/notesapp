@@ -1,0 +1,24 @@
+# Compiled output
+/dist/
+/build/
+/out/
+/*.js
+/*.js.map
+
+# IDE files
+.vscode/
+*.tsbuildinfo
+
+# Dependencies
+/node_modules/
+
+# Logs
+*.log
+logs/
+log/
+npm-debug.log*
+
+# Other
+.DS_Store
+Thumbs.db
+.env
