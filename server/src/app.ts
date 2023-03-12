@@ -1,21 +1,16 @@
 import "dotenv/config"; //used to load env vars from env file
 import express, { Request, Response, NextFunction } from "express";
-import NoteModel from "./models/note";
+import notesRoutes from "./routes/notes";
 
 //create express instance
 const app = express();
 
-//express route handler responds to HTTP GET req to root URL '/'
-app.get("/", async (req, res, next) => {
-	try {
-		//this route handler then uses NoteModel to find all related obj that fits this schema and send them back as a JSON array
-		const notes = await NoteModel.find().exec();
-		//this array is sent back as a res stat 200 which means OK
-		res.status(200).json(notes);
-	} catch (error) {
-		// if there is an error it is passed on an error-handling MIDDLEWARE func
-		next(error);
-	}
+//middleware catches requests going to this endpoint aand forwwards to notesRoutes
+app.use("/api/notes", notesRoutes);
+
+//end point not found error, this one is infered automatically unlike one below, works for normal routes but not error routes
+app.use((req, res, next) => {
+	next(Error("endpoint not found"));
 });
 
 //error-handling middleware
