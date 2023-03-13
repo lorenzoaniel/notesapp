@@ -48,6 +48,7 @@ export const createNotes: RequestHandler<unknown, unknown, CreateNoteBody, unkno
 	}
 };
 
+//no types in req handler since we dont need body
 export const getNote: RequestHandler = async (req, res, next) => {
 	const noteId = req.params.noteId; //same spelling as notes route since params will take values in url ex: notes/:noteId <- this will be replaced by a note id in client side and then retrieved by backend (probably a list of all notes saved in client side)
 
@@ -59,6 +60,72 @@ export const getNote: RequestHandler = async (req, res, next) => {
 		if (!note) throw createHttpError(404, "note not found");
 
 		res.status(200).json(note);
+	} catch (error) {
+		next(error);
+	}
+};
+
+interface UpdateNoteParams {
+	noteId: string;
+}
+
+interface UpdateNoteBody {
+	title?: string;
+	text?: string;
+}
+
+//params in RequestHandler: route, response body, request body, request query(URL)
+export const updateNote: RequestHandler<
+	UpdateNoteParams,
+	unknown,
+	UpdateNoteBody,
+	unknown
+> = async (req, res, next) => {
+	const noteId = req.params.noteId;
+	const newTitle = req.body.title;
+	const newText = req.body.text;
+
+	try {
+		if (!mongoose.isValidObjectId(noteId)) throw createHttpError(400, "Invalid Note ID");
+
+		if (!newTitle) throw createHttpError(400, "Note must have a valid title");
+
+		const note = await NoteModel.findById(noteId).exec();
+
+		if (!note) throw createHttpError(404, "note not found");
+
+		note.title = newTitle;
+		note.text = newText;
+
+		// saves to collection
+		const updatedNote = await note.save();
+
+		//returns updated note for client display instead of calling database again
+		res.status(200).json(updatedNote);
+	} catch (error) {
+		next(error);
+	}
+};
+
+//no types in req handler since we dont need body
+export const deleteNote: RequestHandler = async (req, res, next) => {
+	const noteId = req.params.noteId;
+
+	try {
+		if (!mongoose.isValidObjectId(noteId)) {
+			throw createHttpError(400, "Invalid Note ID");
+		}
+
+		const note = await NoteModel.findById(noteId).exec();
+
+		if (!note) {
+			throw createHttpError(404, "note not found");
+		}
+
+		await note.deleteOne();
+
+		//have to use sendStatus instead of status since we have no res body to send back in json()
+		res.sendStatus(204);
 	} catch (error) {
 		next(error);
 	}
