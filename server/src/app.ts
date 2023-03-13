@@ -5,6 +5,9 @@ import notesRoutes from "./routes/notes";
 //create express instance
 const app = express();
 
+//catches json and enables json POSTS
+app.use(express.json());
+
 //middleware catches requests going to this endpoint aand forwwards to notesRoutes
 app.use("/api/notes", notesRoutes);
 
