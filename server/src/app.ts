@@ -1,9 +1,13 @@
 import "dotenv/config"; //used to load env vars from env file
 import express, { Request, Response, NextFunction } from "express";
+import morgan from "morgan";
 import notesRoutes from "./routes/notes";
 
 //create express instance
 const app = express();
+
+//defines type and amount of information
+app.use(morgan("dev"));
 
 //catches json and enables json POSTS
 app.use(express.json());
