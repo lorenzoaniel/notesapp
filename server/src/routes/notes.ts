@@ -9,7 +9,12 @@ router.get("/", NotesController.getNotes);
 //same endpoint since different HTTP type, this one sends a note to the collection
 router.post("/", NotesController.createNotes);
 
+//used to update data
+router.patch("/:noteId", NotesController.updateNote);
+
 //base url plus noteId param that is then used in controller passed to it
 router.get("/:noteId", NotesController.getNote);
 
+//delete
+router.delete("/:noteId", NotesController.deleteNote);
 export default router;
