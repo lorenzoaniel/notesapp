@@ -12,4 +12,10 @@ router.post("/", NotesController.createNotes);
 //base url plus noteId param that is then used in controller passed to it
 router.get("/:noteId", NotesController.getNote);
 
+//delete
+router.delete("/:noteId", NotesController.deleteNote);
+
+//update
+router.patch("/:noteId", NotesController.updateNote);
+
 export default router;
