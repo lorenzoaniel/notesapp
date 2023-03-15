@@ -14,15 +14,14 @@ export const GlobalStyle = createGlobalStyle`
 
       /* Hide scrollbar for Chrome and Edge */
       &::-webkit-scrollbar {
-        /* background-color: var(--scrollbar-color); */
-        width: 0.8rem;
-        height: 0.8rem;
+        width: 0rem;
+        height: 0rem;
       }
 
-      &::-webkit-scrollbar-thumb {
-        /* background-color: var(--scrollbarThumb-color); */
+      /* &::-webkit-scrollbar-thumb {
+        background-color: black;
         border-radius: 0.4rem;
-      }
+      } */
 
       a {
         text-decoration: none;
