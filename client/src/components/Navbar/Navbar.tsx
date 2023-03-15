@@ -34,6 +34,8 @@ const Main = styled(NavigationMenu.Root)(
 	${theme.mixins.flex.flxCntrCntr}
 	background: rgb(${theme.color.primary.dark});
 	height: fit-content;
+	box-shadow: 0 0 1rem 0.5rem rgb(${theme.color.primary.dark}), 0 0 1rem 0.1rem rgb(0,0,0,0.5) inset;
+	border-radius: 0 0 1rem 1rem;
 `
 );
 
