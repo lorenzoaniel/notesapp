@@ -36,7 +36,8 @@ const Header = styled.header`
 const Content = styled.section(
 	({ theme }) => `
   ${theme.mixins.flex.flxCntrCntr}
-  height: auto;
+  height: 90%;
+	overflow: hidden;
 `
 );
 
