@@ -34,12 +34,34 @@ const Note: React.FC<TypeNote> = ({ _id, title, text, createdAt, updatedAt }) =>
 		return formattedDate; // prints in format of local browser time ex: "3/17/2023 at 6:51 PM"
 	};
 
+	//makes sure there is an actual change in the text instead of wasting resources calling api
+	const updateNoteOptimized = async (
+		event: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement, Element>,
+		compareValue: string = "",
+		isTitle: boolean
+	) => {
+		const eventValue = event.currentTarget.value.trimEnd(); //does not include spaces in the end of value
+		//makes sure there is an actual change
+		if (compareValue !== eventValue) {
+			console.log("update");
+			await dispatch(
+				updateNote({
+					_id,
+					title: isTitle ? event.currentTarget.value : title, //varies based on isTitle condition, if title reads current else reads prev val
+					text: isTitle ? text : event.currentTarget.value, // same as above but vice versa
+				})
+			);
+		} else {
+			console.log("no update");
+		}
+	};
+
 	return (
-		<Main disabled={disabled}>
+		<Main disabled={disabled} variants={_MotionVariants.Main} initial="initial" animate="animate">
 			<Header>
 				<Title
 					onBlur={async (event) => {
-						await dispatch(updateNote({ _id, title: event.currentTarget.value, text }));
+						await updateNoteOptimized(event, title, true);
 					}}
 					type="text"
 					defaultValue={title}
@@ -61,7 +83,7 @@ const Note: React.FC<TypeNote> = ({ _id, title, text, createdAt, updatedAt }) =>
 			</Header>
 			<Text
 				onBlur={async (event) => {
-					await dispatch(updateNote({ _id, title, text: event.currentTarget.value }));
+					await updateNoteOptimized(event, text, false);
 				}}
 				defaultValue={text}
 			/>
@@ -161,6 +183,14 @@ const Text = styled(motion.textarea)(
 );
 
 const _MotionVariants = {
+	Main: {
+		initial: {
+			scale: 0,
+		},
+		animate: {
+			scale: 1,
+		},
+	},
 	IconWrapper: {
 		initial: {
 			scale: 1,
