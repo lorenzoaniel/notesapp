@@ -8,7 +8,7 @@ import base from "./styles/themes/base";
 // import Layout from "./components/Layout";
 // import Home from "./pages/home/Home";
 // import Privacy from "./pages/privacy/Privacy";
-import { AnimatePresence } from "framer-motion";
+// import { AnimatePresence } from "framer-motion";
 
 const Layout = lazy(() => import("./components/Layout"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -18,24 +18,24 @@ const App: React.FC = () => {
 	return (
 		<ThemeProvider theme={base}>
 			<GlobalStyle />
-			<AnimatePresence>
-				<Suspense fallback={<div>Loading...</div>}>
-					<Routes>
-						<Route
-							path="/"
-							element={
-								<Layout>
-									<Outlet />
-								</Layout>
-							}
-						>
-							<Route index element={<Home />} />
-							<Route path="home" element={<Home />} />
-							<Route path="privacy" element={<Privacy />} />
-						</Route>
-					</Routes>
-				</Suspense>
-			</AnimatePresence>
+			{/* <AnimatePresence mode="wait"> */}
+			<Suspense fallback={<div>Loading...</div>}>
+				<Routes>
+					<Route
+						path="/"
+						element={
+							<Layout>
+								<Outlet />
+							</Layout>
+						}
+					>
+						<Route index element={<Home />} />
+						<Route path="home" element={<Home />} />
+						<Route path="privacy" element={<Privacy />} />
+					</Route>
+				</Routes>
+			</Suspense>
+			{/* </AnimatePresence> */}
 		</ThemeProvider>
 	);
 };
