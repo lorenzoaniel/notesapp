@@ -8,32 +8,48 @@ import { GiTrashCan } from "react-icons/gi";
 import { useAppDispatch } from "../redux/hooks";
 import { deleteNote, fetchNotes, updateNote } from "../redux/features/noteApiSlice";
 
-const Note: React.FC<TypeNote> = ({ _id, text, title, createdAt, updatedAt }) => {
-	const [note, setNote] = useState<TypeNote>({ _id, text, title, createdAt, updatedAt });
+const Note: React.FC<TypeNote> = ({ _id, title, text, createdAt, updatedAt }) => {
+	const [disabled, setDisabled] = useState(false);
 	const dispatch = useAppDispatch();
 
-	// console.log(note);
-	// console.log({ _id, text, title, createdAt, updatedAt });
+	const convertTime = (timeToCovert: string) => {
+		// Convert the UTC-formatted date string to a local date string with a 12-hour clock format
+		const localDateString = new Date(timeToCovert).toLocaleString("en-US", {
+			hour: "numeric", // set the hour component to the "numeric" format (i.e. 1, 2, ..., 12)
+			minute: "numeric", // set the minute component to the "numeric" format (i.e. 0, 1, ..., 59)
+			hour12: true, // use a 12-hour clock format with AM/PM indicator
+		});
+
+		// Replace the "T" and ".429Z" substrings in the UTC-formatted date string with spaces,
+		// and format the time component of the date string to use a 12-hour clock format with AM/PM indicator
+		const formattedDate = timeToCovert
+			.replace(/T|(\.\d{3})Z/g, " ") // replace the "T" and ".429Z" substrings with spaces
+			.replace(/:\d{2}$/g, (match) => {
+				// format the time component of the date string to use a 12-hour clock format with AM/PM indicator
+				return " " + match.replace(":", "") + " ";
+			})
+			.replace(/\d{2}:\d{2}:\d{2}/g, localDateString); // replace the time component with the local date string
+
+		// Print the formatted date string
+		return formattedDate; // prints in format of local browser time ex: "3/17/2023 at 6:51 PM"
+	};
 
 	return (
-		<Main>
+		<Main disabled={disabled}>
 			<Header>
 				<Title
 					onBlur={async (event) => {
-						await setNote((curr) => {
-							return { ...curr, title: event.target.value };
-						});
-						await dispatch(updateNote({ _id: note._id, title: note.title, text: note.text }));
-						await dispatch(fetchNotes());
+						await dispatch(updateNote({ _id, title: event.currentTarget.value, text }));
 					}}
 					type="text"
-					defaultValue={note.title}
+					defaultValue={title}
 					maxLength={32}
 				/>
 				<IconWrapper
 					onClick={async () => {
-						await dispatch(deleteNote(note._id));
-						await dispatch(fetchNotes());
+						await setDisabled(true);
+						await dispatch(deleteNote(_id));
+						dispatch(fetchNotes()); //required since response is nothing and notes managed state will not change have to manually change it with a request
 					}}
 					variants={_MotionVariants.IconWrapper}
 					initial="initial"
@@ -45,23 +61,23 @@ const Note: React.FC<TypeNote> = ({ _id, text, title, createdAt, updatedAt }) =>
 			</Header>
 			<Text
 				onBlur={async (event) => {
-					await setNote((curr) => {
-						return { ...curr, text: event.target.value };
-					});
-					await dispatch(updateNote({ _id: note._id, title: note.title, text: note.text }));
-					await dispatch(fetchNotes());
+					await dispatch(updateNote({ _id, title, text: event.currentTarget.value }));
 				}}
-				defaultValue={note.text}
+				defaultValue={text}
 			/>
-			{note.updatedAt > note.createdAt
-				? "Updated at:" + note.updatedAt
-				: "Created at:" + note.createdAt}
+			{updatedAt > createdAt
+				? "Updated at: " + convertTime(updatedAt)
+				: "Created at: " + convertTime(createdAt)}
 		</Main>
 	);
 };
 
-const Main = styled(motion.div)(
-	({ theme }) => `
+interface Main {
+	disabled: boolean;
+}
+
+const Main = styled(motion.div)<Main>(
+	({ theme, disabled }) => `
 	${theme.mixins.flex.flxColCntrCntr}
   background: rgb(${theme.color.primary.medium});
   min-height: 27rem;
@@ -69,6 +85,9 @@ const Main = styled(motion.div)(
 	min-width: 30rem;
 	max-width: 30rem;
 	padding-bottom: 0.5rem;
+
+	pointer-events: ${disabled ? "none" : "auto"};
+	opacity: ${disabled ? 0.5 : 1};
 
 	border-radius: 0.5rem;
 	box-shadow: 0 0 0.5rem 0.1rem black inset;
