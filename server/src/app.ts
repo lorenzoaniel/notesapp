@@ -2,8 +2,12 @@ import "dotenv/config"; //used to load env vars from env file
 import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import notesRoutes from "./routes/notes";
+import userRoutes from "./routes/users";
 import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
+import session from "express-session";
+import env from "./utils/validateEnv"; //loads env vars and validates values
+import MongoStore from "connect-mongo";
 
 //create express instance
 const app = express();
@@ -16,8 +20,25 @@ app.use(morgan("dev"));
 //catches json and enables json POSTS
 app.use(express.json());
 
+//in conjunction with userRoutes creates session for each client
+app.use(
+	session({
+		secret: env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: false,
+		cookie: {
+			maxAge: 60 * 60 * 1000, //in miliseconds this translates to an hour
+		},
+		rolling: true,
+		store: MongoStore.create({
+			mongoUrl: env.MONGO_URL, //same as our database
+		}),
+	})
+);
+
 //middleware catches requests going to this endpoint aand forwwards to notesRoutes
 app.use("/api/notes", notesRoutes);
+app.use("/api/users", userRoutes);
 
 //end point not found error, this one is infered automatically unlike one below, works for normal routes but not error routes
 app.use((req, res, next) => {
