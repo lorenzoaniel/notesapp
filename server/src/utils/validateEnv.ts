@@ -5,6 +5,7 @@ import { port, str } from "envalid/dist/validators"; //has to be imported this w
 export default cleanEnv(process.env, {
 	MONGO_URL: str(), //expected to be a string
 	PORT: port(), //expected to be a port number
+	SESSION_SECRET: str(),
 });
 
 //an error is thrown if validation fails
