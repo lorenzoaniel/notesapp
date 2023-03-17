@@ -26,7 +26,7 @@ const Note: React.FC<TypeNote> = ({ _id, title, text, createdAt, updatedAt }) =>
 			.replace(/T|(\.\d{3})Z/g, " ") // replace the "T" and ".429Z" substrings with spaces
 			.replace(/:\d{2}$/g, (match) => {
 				// format the time component of the date string to use a 12-hour clock format with AM/PM indicator
-				return " " + match.replace(":", "") + " ";
+				return match.replace(":", "");
 			})
 			.replace(/\d{2}:\d{2}:\d{2}/g, localDateString); // replace the time component with the local date string
 
