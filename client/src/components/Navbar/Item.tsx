@@ -99,6 +99,7 @@ const _MotionVariants = {
 		whileTap: {
 			scale: 1,
 			transition: {
+				duration: 0.1,
 				staggerChildren: 0.1,
 				ease: "easeInOut",
 			},
