@@ -112,7 +112,7 @@ const Title = styled(motion.input)(
 	({ theme }) => `
 	background: transparent;
 	padding: 0;
-	margin: 0;
+	margin-top: 0.2rem;
 	border: none;
 	height: 3rem;
 	width: 25rem;
