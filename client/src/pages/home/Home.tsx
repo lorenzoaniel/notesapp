@@ -1,31 +1,45 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import Note from "../../components/Note";
 import { device } from "../../styles/breakpoints";
 import AddButton from "../../components/buttons/AddButton";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { createNote, fetchNotes, selectNoteApi } from "../../redux/features/noteApiSlice";
 
 const Home: React.FC = () => {
+	const notes = useAppSelector(selectNoteApi);
+	const dispatch = useAppDispatch();
+
+	const _createNotes = () => {
+		return notes.map((currNote) => {
+			return (
+				<Note
+					key={currNote._id}
+					_id={currNote._id}
+					title={currNote.title}
+					text={currNote.text}
+					createdAt={currNote.createdAt}
+					updatedAt={currNote.updatedAt}
+				/>
+			);
+		});
+	};
+
+	useEffect(() => {
+		// console.log("rerender");
+		dispatch(fetchNotes());
+	}, [notes]);
+
 	return (
 		<Main>
-			<AddButton title="Add Note" />
-			<Board>
-				<Note
-					text="testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest"
-					title={"Test1"}
-				/>
-				<Note />
-				<Note />
-				<Note />
-				<Note />
-				<Note />
-				<Note />
-				<Note />
-				<Note />
-				<Note />
-				<Note />
-				<Note />
-			</Board>
+			<AddButton
+				title="Add Note"
+				handleClick={() => {
+					dispatch(createNote());
+				}}
+			/>
+			<Board>{_createNotes()}</Board>
 		</Main>
 	);
 };
