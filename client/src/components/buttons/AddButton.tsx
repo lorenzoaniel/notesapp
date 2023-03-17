@@ -6,13 +6,19 @@ import { TiPlus } from "react-icons/ti";
 
 interface Props {
 	title: string;
+	handleClick: () => any;
 }
 
-const AddButton: React.FC<Props> = ({ title }) => {
+const AddButton: React.FC<Props> = ({ title, handleClick = () => {} }) => {
+	const motion_props = {
+		whileHover: "whileHover",
+		whileTap: "whileTap",
+	};
+
 	return (
-		<Main>
+		<Main {...motion_props} variants={_MotionVariants.Main} onClick={handleClick}>
 			{title}{" "}
-			<IconWrapper>
+			<IconWrapper variants={_MotionVariants.IconWrapper}>
 				<TiPlus style={icon_style} />
 			</IconWrapper>
 		</Main>
@@ -39,7 +45,7 @@ const Main = styled(motion.button)(
 );
 
 const IconWrapper = styled(motion.div)(
-	({ theme, custom }) => `
+	({ theme }) => `
 	height: 3rem;
   width: 3rem;
 `
@@ -49,6 +55,28 @@ const icon_style = {
 	height: "100%",
 	width: "100%",
 	filter: "drop-shadow(0 0rem 0.2rem rgb(0,0,0,1))",
+};
+
+const _MotionVariants = {
+	Main: {
+		whileHover: {
+			scale: 1.1,
+		},
+		whileTap: {
+			scale: 1,
+		},
+	},
+	IconWrapper: {
+		whileHover: {
+			rotate: 180,
+			transition: {
+				type: "spring",
+			},
+		},
+		whileTap: {
+			rotate: 0,
+		},
+	},
 };
 
 export default AddButton;
