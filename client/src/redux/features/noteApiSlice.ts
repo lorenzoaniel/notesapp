@@ -1,7 +1,6 @@
-import { NoteUpdate } from "./../../models/note";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { TypeNote } from "../../models/note";
+import { TypeNote, NoteUpdate } from "../../models/note";
 
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
 	const res = await fetch(input, init);
