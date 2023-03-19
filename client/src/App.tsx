@@ -29,7 +29,7 @@ const App: React.FC = () => {
 							</Layout>
 						}
 					>
-						<Route index element={<Home />} />
+						<Route index element={<Privacy />} />
 						<Route path="home" element={<Home />} />
 						<Route path="privacy" element={<Privacy />} />
 					</Route>

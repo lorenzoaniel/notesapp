@@ -39,8 +39,6 @@ const Main = styled(motion.button)(
   text-shadow: ${theme.font.shadow.medium};
   font-family: ${theme.font.style.flower};
 	font-weight: 900;
-
-
 `
 );
 
