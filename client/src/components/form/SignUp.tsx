@@ -1,12 +1,11 @@
 import React from "react";
 import * as Form from "@radix-ui/react-form";
-import { RegisterOptions, SubmitHandler, UseFormRegisterReturn, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import TextInput from "./TextInput";
-import SubmitButton from "../buttons/SubmitButton";
 
 interface Inputs {
 	username: string;
@@ -24,7 +23,7 @@ const schema = yup.object({
 		.required("Password is required"),
 });
 
-const SignUp = () => {
+const SignUp: React.FC = () => {
 	const {
 		register,
 		handleSubmit,
@@ -46,7 +45,7 @@ const SignUp = () => {
 
 			<TextInput
 				name={"useremail"}
-				label={"useremail"}
+				label={"Email"}
 				type="text"
 				placeholder="email"
 				register={register}
@@ -56,7 +55,7 @@ const SignUp = () => {
 
 			<TextInput
 				name={"userpass"}
-				label={"userpass"}
+				label={"Password"}
 				type="text"
 				placeholder="password"
 				register={register}
@@ -72,10 +71,13 @@ const SignUp = () => {
 const Root = styled(Form.Root)(
 	({ theme }) => `
   background: rgb(${theme.color.secondary.accent});
-  width: 100%;
-  // max-height: 50%;
   display: flex;
   flex-direction: column;
+  flex 0 1 fit-content;
+  padding: 5rem;
+  gap: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem 0.1rem rgb(${theme.color.secondary.light}), 0 0 1rem 0.1rem rgb(${theme.color.secondary.light}) inset;
 `
 );
 
