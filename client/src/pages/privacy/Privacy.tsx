@@ -2,12 +2,14 @@ import React from "react";
 import SignUp from "../../components/form/SignUp";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import Login from "../../components/form/Login";
 styled;
 
 const Privacy: React.FC = () => {
 	return (
 		<Main>
-			<SignUp />
+			{/* <SignUp /> */}
+			<Login />
 		</Main>
 	);
 };
