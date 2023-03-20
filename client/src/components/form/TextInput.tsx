@@ -21,18 +21,26 @@ const TextInput: React.FC<TextInputType> = ({
 	...props
 }) => {
 	return (
-		<Form.Field name={name}>
+		<Field name={name}>
 			<Label>{label}</Label>
 			<Control {...props} {...register(name, registerOptions)} />
 			<Form.Message>{error ? error.message : " "}</Form.Message>
-		</Form.Field>
+		</Field>
 	);
 };
+
+const Field = styled(Form.Field)(
+	({ theme }) => `
+	${theme.mixins.flex.flxColCntrCntr}
+`
+);
 
 const Control = styled(Form.Control)(
 	({ theme }) => `
 	border: none;
 	border-radius: 0.5rem;
+	padding: 1rem;
+	flex: 0 1 fit-content;
 `
 );
 
@@ -40,6 +48,9 @@ const Label = styled(Form.Label)(
 	({ theme }) => `
 	font-family: ${theme.font.style.flower};
 	font-weight: 600;
+	font-size: 4rem;
+	color: rgb(${theme.color.secondary.dark});
+  text-shadow: ${theme.font.shadow.medium};
 `
 );
 
