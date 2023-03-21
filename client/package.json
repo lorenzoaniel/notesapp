@@ -12,6 +12,7 @@
 		"@hookform/resolvers": "^2.9.11",
 		"@radix-ui/react-form": "^0.0.2",
 		"@radix-ui/react-navigation-menu": "^1.1.2",
+		"@radix-ui/react-tabs": "^1.0.3",
 		"@reduxjs/toolkit": "^1.9.3",
 		"framer-motion": "^10.2.5",
 		"normalize.css": "^8.0.1",

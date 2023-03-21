@@ -9,15 +9,9 @@ import bcrypt from "bcrypt";
 */
 
 export const getAuthUser: RequestHandler = async (req, res, next) => {
-	const authenicatedUserId = req.session.userId;
-
 	try {
-		if (!authenicatedUserId) {
-			throw createHttpError(401, "user not authenticated");
-		}
-
 		//once we have verified that there is still an active session id since it is still in database we can grab
-		const user = await UserModel.findById(authenicatedUserId).select("+useremail").exec();
+		const user = await UserModel.findById(req.session.userId).select("+useremail").exec();
 		res.status(200).json(user);
 	} catch (error) {
 		next(error);

@@ -5,25 +5,60 @@ import styled from "styled-components";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { device } from "../../styles/breakpoints";
 
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { getLoggedInUser, logout, selectUserApi } from "../../redux/features/userApiSlice";
+
 import Item from "./Item";
+import { useNavigate } from "react-router";
 
 const Navbar: React.FC = () => {
+	const user = useAppSelector(selectUserApi).user;
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	return (
 		<Main>
 			<List>
-				<Item>
+				<Item
+					handleClick={() => {
+						navigate("/home");
+					}}
+				>
 					<LinkPrimary>NotesApp</LinkPrimary>
 				</Item>
-				<Item>
+				<Item
+					handleClick={() => {
+						navigate("/privacy");
+					}}
+				>
 					<LinkSecondary>Privacy</LinkSecondary>
 				</Item>
 				<ItemFiller />
-				<Item>
-					<LinkSecondary>Signed in as: Sample</LinkSecondary>
-				</Item>
-				<Item>
-					<LinkPrimary>Log Out</LinkPrimary>
-				</Item>
+				{user.username ? (
+					<>
+						<LinkSecondary>Signed in as: {user.username}</LinkSecondary>
+						<Item
+							handleClick={() => {
+								dispatch(logout());
+							}}
+						>
+							<LinkPrimary>Log Out</LinkPrimary>
+						</Item>
+					</>
+				) : (
+					<Item
+						handleClick={() => {
+							dispatch(getLoggedInUser());
+						}}
+					>
+						<LinkSecondary
+							onClick={() => {
+								navigate("/loginorsignup");
+							}}
+						>
+							SignUp/Login
+						</LinkSecondary>
+					</Item>
+				)}
 			</List>
 		</Main>
 	);

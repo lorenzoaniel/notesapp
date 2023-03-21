@@ -1,3 +1,4 @@
+import { requiresAuth } from "./middleware/auth";
 import "dotenv/config"; //used to load env vars from env file
 import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
@@ -37,8 +38,9 @@ app.use(
 );
 
 //middleware catches requests going to this endpoint aand forwwards to notesRoutes
-app.use("/api/notes", notesRoutes);
 app.use("/api/users", userRoutes);
+//auth middleware requiresAuth at base of route
+app.use("/api/notes", requiresAuth, notesRoutes);
 
 //end point not found error, this one is infered automatically unlike one below, works for normal routes but not error routes
 app.use((req, res, next) => {

@@ -2,12 +2,17 @@ import mongoose from "mongoose";
 import createHttpError from "http-errors";
 import { RequestHandler } from "express";
 import NoteModel from "../models/note";
+import { assertIsDefined } from "../utils/assertIsDefined";
 
 //instead of
 export const getNotes: RequestHandler = async (req, res, next) => {
+	const authUserId = req.session.userId;
+
 	try {
+		assertIsDefined(authUserId);
+
 		//this route handler then uses NoteModel to find all related obj that fits this schema and send them back as a JSON array
-		const notes = await NoteModel.find().exec();
+		const notes = await NoteModel.find({ userId: authUserId }).exec();
 
 		//this array is sent back as a res stat 200 which means OK
 		res.status(200).json(notes);
@@ -30,13 +35,17 @@ export const createNotes: RequestHandler<unknown, unknown, CreateNoteBody, unkno
 ) => {
 	const title = req.body.title;
 	const text = req.body.text;
+	const authUserId = req.session.userId;
 
 	try {
+		assertIsDefined(authUserId);
+
 		//400 bad request since title is missing
 		if (!title) throw createHttpError(400, "Note must have a title");
 
 		//send new note to client and DB, similar to .find() but .create() auto returns a promise by default so no need for .exec()
 		const newNote = await NoteModel.create({
+			userId: authUserId,
 			title: title,
 			text: text,
 		});
@@ -51,13 +60,17 @@ export const createNotes: RequestHandler<unknown, unknown, CreateNoteBody, unkno
 //no types in req handler since we dont need body
 export const getNote: RequestHandler = async (req, res, next) => {
 	const noteId = req.params.noteId; //same spelling as notes route since params will take values in url ex: notes/:noteId <- this will be replaced by a note id in client side and then retrieved by backend (probably a list of all notes saved in client side)
+	const authUserId = req.session.userId;
 
 	try {
+		assertIsDefined(authUserId);
 		if (!mongoose.isValidObjectId(noteId)) throw createHttpError(400, "Invalid note id");
 
 		const note = await NoteModel.findById(noteId).exec();
 
 		if (!note) throw createHttpError(404, "note not found");
+
+		if (!note.userId.equals(authUserId)) throw createHttpError(401, "You cannot access this note");
 
 		res.status(200).json(note);
 	} catch (error) {
@@ -84,8 +97,11 @@ export const updateNote: RequestHandler<
 	const noteId = req.params.noteId;
 	const newTitle = req.body.title;
 	const newText = req.body.text;
+	const authUserId = req.session.userId;
 
 	try {
+		assertIsDefined(authUserId);
+
 		if (!mongoose.isValidObjectId(noteId)) throw createHttpError(400, "Invalid Note ID");
 
 		if (!newTitle) throw createHttpError(400, "Note must have a valid title");
@@ -93,6 +109,8 @@ export const updateNote: RequestHandler<
 		const note = await NoteModel.findById(noteId).exec();
 
 		if (!note) throw createHttpError(404, "note not found");
+
+		if (!note.userId.equals(authUserId)) throw createHttpError(401, "You cannot access this note");
 
 		note.title = newTitle;
 		note.text = newText;
@@ -110,8 +128,11 @@ export const updateNote: RequestHandler<
 //no types in req handler since we dont need body
 export const deleteNote: RequestHandler = async (req, res, next) => {
 	const noteId = req.params.noteId;
+	const authUserId = req.session.userId;
 
 	try {
+		assertIsDefined(authUserId);
+
 		if (!mongoose.isValidObjectId(noteId)) {
 			throw createHttpError(400, "Invalid Note ID");
 		}
@@ -121,6 +142,8 @@ export const deleteNote: RequestHandler = async (req, res, next) => {
 		if (!note) {
 			throw createHttpError(404, "note not found");
 		}
+
+		if (!note.userId.equals(authUserId)) throw createHttpError(401, "You cannot access this note");
 
 		await note.deleteOne();
 

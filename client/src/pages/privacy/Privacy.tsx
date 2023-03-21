@@ -6,12 +6,7 @@ import Login from "../../components/form/Login";
 styled;
 
 const Privacy: React.FC = () => {
-	return (
-		<Main>
-			{/* <SignUp /> */}
-			<Login />
-		</Main>
-	);
+	return <Main>Privacy</Main>;
 };
 
 const Main = styled(motion.section)(

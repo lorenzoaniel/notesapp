@@ -63,7 +63,7 @@ const SignUp: React.FC = () => {
 				error={errors.userpass}
 			/>
 
-			<Submit>Submit</Submit>
+			<Submit>Sign Up</Submit>
 		</Root>
 	);
 };
@@ -76,8 +76,6 @@ const Root = styled(Form.Root)(
   flex 0 1 fit-content;
   padding: 5rem;
   gap: 2rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 0.5rem 0.1rem rgb(${theme.color.secondary.light}), 0 0 1rem 0.1rem rgb(${theme.color.secondary.light}) inset;
 `
 );
 

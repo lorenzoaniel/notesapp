@@ -10,9 +10,10 @@ import { BsFlower2 } from "react-icons/bs";
 interface Props {
 	children: React.ReactNode;
 	className?: string;
+	handleClick?: () => void;
 }
 
-const Item: React.FC<Props> = ({ children, className }) => {
+const Item: React.FC<Props> = ({ children, className, handleClick }) => {
 	const motion_props = {
 		initial: "initial",
 		whileHover: "whileHover",
@@ -20,7 +21,12 @@ const Item: React.FC<Props> = ({ children, className }) => {
 	};
 
 	return (
-		<Main variants={_MotionVariants.Main} {...motion_props} className={className}>
+		<Main
+			onClick={handleClick}
+			variants={_MotionVariants.Main}
+			{...motion_props}
+			className={className}
+		>
 			<IconWrapper variants={_MotionVariants.IconWrapper} custom={20}>
 				<BsFlower2 style={icon_style} />
 			</IconWrapper>

@@ -7,8 +7,11 @@ import AddButton from "../../components/buttons/AddButton";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { createNote, fetchNotes, selectNoteApi } from "../../redux/features/noteApiSlice";
 import { TypeNote } from "../../models/note";
+import { User } from "../../models/user";
+import { selectUserApi } from "../../redux/features/userApiSlice";
 
 const Home: React.FC = () => {
+	const user = useAppSelector(selectUserApi).user;
 	const notes = useAppSelector(selectNoteApi);
 	const dispatch = useAppDispatch();
 	const [showNotes, setShowNotes] = useState<ReactElement[]>([]);
@@ -32,19 +35,25 @@ const Home: React.FC = () => {
 	};
 
 	useEffect(() => {
-		console.log("rerender home");
-		_createNotes(notes); //only works due to the condition in noteApiSlice that compares payload and local state
-	}, [notes]);
+		// user.userpass && console.log("rerender home");
+		user.username && _createNotes(notes); //only works due to the condition in noteApiSlice that compares payload and local state as well as user authenticated
+	}, [notes, user]);
 
 	return (
 		<Main>
-			<AddButton
-				title="Add Note"
-				handleClick={() => {
-					dispatch(createNote());
-				}}
-			/>
-			<Board>{showNotes}</Board>
+			{user.username ? (
+				<>
+					<AddButton
+						title="Add Note"
+						handleClick={() => {
+							dispatch(createNote());
+						}}
+					/>
+					<Board>{showNotes}</Board>
+				</>
+			) : (
+				<div>Please Log in or Sign up</div>
+			)}
 		</Main>
 	);
 };
