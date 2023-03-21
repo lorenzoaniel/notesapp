@@ -9,7 +9,9 @@ const LoginOrSignUp = () => {
 	return (
 		<Root defaultValue="signup">
 			<List>
-				<Trigger value="signup">Sign Up</Trigger>
+				<Trigger value="signup" autoFocus>
+					Sign Up
+				</Trigger>
 				<Trigger value="login">Login</Trigger>
 			</List>
 			<Content value="signup">
@@ -28,7 +30,7 @@ const Root = styled(motion(Tabs.Root))(
   display: flex;
   flex-direction: column;
   flex 0 1 fit-content;
-  padding: 1rem;
+  // padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 0 0.5rem 0.1rem rgb(${theme.color.secondary.light}), 0 0 1rem 0.1rem rgb(${theme.color.secondary.light}) inset;
 `
@@ -37,24 +39,33 @@ const Root = styled(motion(Tabs.Root))(
 const List = styled(motion(Tabs.List))(
 	({ theme }) => `
    ${theme.mixins.flex.flxCntrCntr}
-   gap: 20%;
-   padding: 1.5rem;
+  //  gap: 20%;
+  //  padding: 1.5rem;
 `
 );
 
 const Trigger = styled(motion(Tabs.Trigger))(
 	({ theme }) => `
+  ${theme.mixins.flex.flxCntrCntr}
+
   color: rgb(${theme.color.secondary.dark});
   text-shadow: ${theme.font.shadow.medium};
   font-family: ${theme.font.style.flower};
 	font-weight: 900;
   font-size: 4rem;
+  flex-grow: 1;
+  padding: 1.5rem;
+
+  &:not(:focus) {
+    box-shadow: 0 0 0.5rem 0.1rem rgb(${theme.color.secondary.light}), 0 0 1rem 0.1rem rgb(${theme.color.secondary.light}) inset;
+  }
 `
 );
 
 const Content = styled(motion(Tabs.Content))(
 	({ theme }) => `
-  min-height: 50rem;
+  height: fit-content;
+  padding: 1rem;
 `
 );
 
