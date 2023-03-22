@@ -6,6 +6,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import TextInput from "./TextInput";
+import { login } from "../../redux/features/userApiSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import SubmitButton from "../buttons/SubmitButton";
 
 interface Inputs {
 	username: string;
@@ -22,12 +25,14 @@ const schema = yup.object({
 });
 
 const Login: React.FC = () => {
+	const dispatch = useAppDispatch();
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<Inputs>({ resolver: yupResolver(schema) });
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data); //replace with dispatch
+	const onSubmit: SubmitHandler<Inputs> = async (data) => await dispatch(login(data));
 
 	return (
 		<Root onSubmit={handleSubmit(onSubmit)}>
@@ -51,7 +56,7 @@ const Login: React.FC = () => {
 				error={errors.userpass}
 			/>
 
-			<Submit>Login</Submit>
+			<SubmitButton title={"Login"} />
 		</Root>
 	);
 };
@@ -64,23 +69,6 @@ const Root = styled(Form.Root)(
   flex 0 1 fit-content;
   padding: 5rem;
   gap: 2rem;
-`
-);
-
-const Submit = styled(motion(Form.Submit))(
-	({ theme }) => `
-  ${theme.mixins.flex.flxCntrCntr}
-  background: rgb(${theme.color.primary.dark});
-  column-gap: 1rem;
-  padding: 1.5rem;
-  margin: 0.5rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 0.5rem 0.1rem rgb(${theme.color.primary.dark}), 0 0 1rem 0.1rem rgb(0,0,0,0.5) inset;
-
-  color: rgb(${theme.color.secondary.dark});
-  text-shadow: ${theme.font.shadow.medium};
-  font-family: ${theme.font.style.flower};
-	font-weight: 900;
 `
 );
 
