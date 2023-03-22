@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { createNote, fetchNotes, selectNoteApi } from "../../redux/features/noteApiSlice";
 import { TypeNote } from "../../models/note";
 import { selectUserApi } from "../../redux/features/userApiSlice";
+import { defaultMotionProps } from "../../styles/mixins/defaultMotionProps";
 
 const Home: React.FC = () => {
 	const user = useAppSelector(selectUserApi).user;
@@ -38,7 +39,7 @@ const Home: React.FC = () => {
 	}, [notes]);
 
 	return (
-		<Main>
+		<Main {...defaultMotionProps} variants={_MotionVariants.Main}>
 			{user.username ? (
 				<>
 					<AddButton
@@ -50,7 +51,11 @@ const Home: React.FC = () => {
 					<Board>{showNotes}</Board>
 				</>
 			) : (
-				<div>Please Log in or Sign up</div>
+				<LoginPrompt variants={_MotionVariants.LoginPrompt}>
+					{
+						"Please Log in or Sign up. If you would like to test the app here are some test credentials: username: testuser, password: testpass"
+					}
+				</LoginPrompt>
 			)}
 		</Main>
 	);
@@ -97,5 +102,45 @@ const Board = styled(motion.div)(
 	}
 `
 );
+
+const LoginPrompt = styled(motion.div)(
+	({ theme }) => `
+	background: transparent;
+	height: fit-content;
+	flex: 0 1 fit-content;
+	padding: 1rem;
+
+	color: rgb(${theme.color.secondary.dark});
+  text-shadow: ${theme.font.shadow.medium};
+  font-family: ${theme.font.style.flower};
+	font-weight: 900;
+	font-size 3.5rem;
+	text-align: center;
+`
+);
+
+const _MotionVariants = {
+	Main: {
+		initial: {
+			opacity: 0,
+		},
+		animate: {
+			opacity: 1,
+		},
+	},
+	LoginPrompt: {
+		initial: {
+			y: -100,
+			opacity: 0,
+		},
+		animate: {
+			y: 0,
+			opacity: 1,
+			transition: {
+				type: "spring",
+			},
+		},
+	},
+};
 
 export default Home;
