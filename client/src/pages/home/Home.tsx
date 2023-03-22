@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { ReactElement, useEffect, useMemo, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import styled from "styled-components";
 import Note from "../../components/Note";
 import { device } from "../../styles/breakpoints";
@@ -7,7 +7,6 @@ import AddButton from "../../components/buttons/AddButton";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { createNote, fetchNotes, selectNoteApi } from "../../redux/features/noteApiSlice";
 import { TypeNote } from "../../models/note";
-import { User } from "../../models/user";
 import { selectUserApi } from "../../redux/features/userApiSlice";
 
 const Home: React.FC = () => {
@@ -35,9 +34,8 @@ const Home: React.FC = () => {
 	};
 
 	useEffect(() => {
-		// user.userpass && console.log("rerender home");
 		user.username && _createNotes(notes); //only works due to the condition in noteApiSlice that compares payload and local state as well as user authenticated
-	}, [notes, user]);
+	}, [notes]);
 
 	return (
 		<Main>
