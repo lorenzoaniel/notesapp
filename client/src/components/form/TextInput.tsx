@@ -2,6 +2,9 @@ import React from "react";
 import { FieldError, RegisterOptions, UseFormRegister } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { resetError, selectUserApi } from "../../redux/features/userApiSlice";
+import { useAppSelector } from "../../redux/hooks";
 
 interface TextInputType {
 	name: string;
@@ -20,11 +23,19 @@ const TextInput: React.FC<TextInputType> = ({
 	error,
 	...props
 }) => {
+	const dispatch = useDispatch();
+	const apiError = useAppSelector(selectUserApi).errors;
 	return (
 		<Field name={name}>
 			<Label>{label}</Label>
-			<Control {...props} {...register(name, registerOptions)} />
-			<Form.Message>{error ? error.message : " "}</Form.Message>
+			<Control
+				onFocus={() => {
+					dispatch(resetError());
+				}}
+				{...props}
+				{...register(name, registerOptions)}
+			/>
+			<Form.Message>{error ? error.message : apiError ? apiError.message : " "}</Form.Message>
 		</Field>
 	);
 };
