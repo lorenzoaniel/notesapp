@@ -5,9 +5,13 @@
 	"main": "dist/index.js",
 	"scripts": {
 		"dev": "nodemon src/index.ts",
+<<<<<<< HEAD
 		"lint": "eslint . --ext .ts",
 		"start": "src/index.ts",
 		"build": "tsc"
+=======
+		"lint": "eslint . --ext .ts"
+>>>>>>> parent of 598e898 (Update package.json)
 	},
 	"keywords": [],
 	"author": "",
