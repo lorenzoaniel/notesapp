@@ -6,11 +6,12 @@ import Login from "../../components/form/Login";
 import SignUp from "../../components/form/SignUp";
 import { useAppDispatch } from "../../redux/hooks";
 import { resetError } from "../../redux/features/userApiSlice";
+import { defaultMotionProps } from "../../styles/mixins/defaultMotionProps";
 
 const LoginOrSignUp: React.FC = () => {
 	const dispatch = useAppDispatch();
 	return (
-		<Root defaultValue="signup">
+		<Root {...defaultMotionProps} variants={_MotionVariants.Main} defaultValue="signup">
 			<List>
 				<Trigger
 					onFocus={() => {
@@ -81,5 +82,21 @@ const Content = styled(motion(Tabs.Content))(
   padding: 1rem;
 `
 );
+
+const _MotionVariants = {
+	Main: {
+		initial: {
+			y: -100,
+			opacity: 0,
+		},
+		animate: {
+			y: 0,
+			opacity: 1,
+			transition: {
+				type: "spring",
+			},
+		},
+	},
+};
 
 export default LoginOrSignUp;
