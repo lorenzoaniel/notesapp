@@ -37,7 +37,7 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
 export const getLoggedInUser = createAsyncThunk(
 	"userApiSlice/getLoggedInUser",
 	async (): Promise<User> => {
-		const res = await fetchData("http://localhost:5000/api/users", { method: "GET" });
+		const res = await fetchData("/api/users", { method: "GET" });
 		return res.json();
 	}
 );
@@ -52,7 +52,7 @@ interface SignUpCreds {
 export const signUp = createAsyncThunk(
 	"userApiSlice/signUp",
 	async (credentials: SignUpCreds): Promise<User> => {
-		const res = await fetchData("http://localhost:5000/api/users/signup", {
+		const res = await fetchData("/api/users/signup", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -72,7 +72,7 @@ interface LoginCreds {
 export const login = createAsyncThunk(
 	"userApiSlice/login",
 	async (credentials: LoginCreds): Promise<User> => {
-		const res = await fetchData("http://localhost:5000/api/users/login", {
+		const res = await fetchData("/api/users/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -84,7 +84,7 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk("userApiSlice/logout", async () => {
-	await fetchData("http://localhost:5000/api/users/logout", { method: "POST" });
+	await fetchData("/api/users/logout", { method: "POST" });
 });
 
 export const userApiSlice = createSlice({

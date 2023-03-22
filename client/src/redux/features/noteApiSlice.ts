@@ -21,14 +21,14 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
 };
 
 export const fetchNotes = createAsyncThunk("noteApiSlice/fetchNotes", async () => {
-	const res = await fetchData("http://localhost:5000/api/notes", {
+	const res = await fetchData(`/api/notes`, {
 		method: "GET",
 	});
 	return await res.json();
 });
 
 export const createNote = createAsyncThunk("noteApiSlice/createNote", async () => {
-	const res = await fetchData("http://localhost:5000/api/notes", {
+	const res = await fetchData("/api/notes", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -39,12 +39,12 @@ export const createNote = createAsyncThunk("noteApiSlice/createNote", async () =
 });
 
 export const deleteNote = createAsyncThunk("noteApiSlice/deleteNote", async (noteId: string) => {
-	const res = await fetchData(`http://localhost:5000/api/notes/${noteId}`, { method: "DELETE" });
+	const res = await fetchData(`/api/notes/${noteId}`, { method: "DELETE" });
 	return await res.json();
 });
 
 export const updateNote = createAsyncThunk("noteApiSlice/updateNote", async (note: NoteUpdate) => {
-	const res = await fetchData(`http://localhost:5000/api/notes/${note._id}`, {
+	const res = await fetchData(`/api/notes/${note._id}`, {
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/json",
