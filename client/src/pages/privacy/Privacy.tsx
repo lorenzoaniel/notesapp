@@ -1,12 +1,14 @@
 import React from "react";
-import SignUp from "../../components/form/SignUp";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import Login from "../../components/form/Login";
-styled;
+import { defaultMotionProps } from "../../styles/mixins/defaultMotionProps";
 
 const Privacy: React.FC = () => {
-	return <Main>Privacy</Main>;
+	return (
+		<Main {...defaultMotionProps} variants={_MotionVariants.Main}>
+			{"This section is just to showcase the usage of routes in this app."}
+		</Main>
+	);
 };
 
 const Main = styled(motion.section)(
@@ -17,7 +19,30 @@ const Main = styled(motion.section)(
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+
+	color: rgb(${theme.color.secondary.dark});
+  text-shadow: ${theme.font.shadow.medium};
+  font-family: ${theme.font.style.flower};
+	font-weight: 900;
+	font-size 3.5rem;
+	text-align: center;
 `
 );
+
+const _MotionVariants = {
+	Main: {
+		initial: {
+			y: -100,
+			opacity: 0,
+		},
+		animate: {
+			y: 0,
+			opacity: 1,
+			transition: {
+				type: "spring",
+			},
+		},
+	},
+};
 
 export default Privacy;
