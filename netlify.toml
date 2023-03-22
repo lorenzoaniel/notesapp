@@ -1,2 +1,2 @@
 [build]
-  functions = "server/"
+  functions = "server/dist/index.js"
