@@ -8,8 +8,12 @@
 		"lint": "eslint . --ext .ts",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		"start": "src/index.ts",
 		"build": "tsc"
+=======
+		"start": "src/index.ts"
+>>>>>>> parent of d39e102 (netlify update)
 =======
 		"start": "src/index.ts"
 >>>>>>> parent of d39e102 (netlify update)
