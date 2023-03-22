@@ -32,30 +32,29 @@ const App: React.FC = () => {
 	return (
 		<ThemeProvider theme={base}>
 			<GlobalStyle />
-			<AnimatePresence>
-				<Suspense fallback={<div>Loading...</div>}>
-					<Routes key={location.pathname} location={location}>
-						<Route
-							path="/"
-							element={
-								<Layout>
+
+			<Suspense fallback={<div>Loading...</div>}>
+				<Routes key={location.pathname} location={location}>
+					<Route
+						path="/"
+						element={
+							<Layout>
+								<AnimatePresence mode="wait">
 									<Outlet />
-								</Layout>
-							}
-						>
-							<Route index element={<Home />} />
-							<Route path="home" element={<Home />} />
-							<Route path="privacy" element={<Privacy />} />
-							<Route
-								path="loginorsignup"
-								element={
-									user.username ? <Navigate to={`/home`} replace={true} /> : <LoginOrSignUp />
-								}
-							/>
-						</Route>
-					</Routes>
-				</Suspense>
-			</AnimatePresence>
+								</AnimatePresence>
+							</Layout>
+						}
+					>
+						<Route index element={<Home />} />
+						<Route path="home" element={<Home />} />
+						<Route path="privacy" element={<Privacy />} />
+						<Route
+							path="loginorsignup"
+							element={user.username ? <Navigate to={`/home`} replace={true} /> : <LoginOrSignUp />}
+						/>
+					</Route>
+				</Routes>
+			</Suspense>
 		</ThemeProvider>
 	);
 };
