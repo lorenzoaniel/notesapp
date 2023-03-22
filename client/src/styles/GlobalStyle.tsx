@@ -9,8 +9,8 @@ export const GlobalStyle = createGlobalStyle`
       transition: font-size 0.3s ease-in-out;
 
       /* Hide scrollbar for Firefox */
-      scrollbar-width: thin;
-      -ms-overflow-style: thin; /* IE and Edge */
+      scrollbar-width: none;
+      -ms-overflow-style: none; /* IE and Edge */
 
       /* Hide scrollbar for Chrome and Edge */
       &::-webkit-scrollbar {
