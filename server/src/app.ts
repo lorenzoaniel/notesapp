@@ -14,19 +14,18 @@ import MongoStore from "connect-mongo";
 const app = express();
 
 // Configure CORS middleware
-app.use(
-	cors({
-		origin: function (origin, callback) {
-			// Check if the origin is allowed
-			if (!origin || env.ALLOWEDORIGIN === origin) {
-				callback(null, true);
-			} else {
-				callback(new Error("Not allowed by CORS"));
-			}
-		},
-		credentials: true,
-	})
-);
+// {
+// 		origin: function (origin, callback) {
+// 			// Check if the origin is allowed
+// 			if (!origin || env.ALLOWEDORIGIN === origin) {
+// 				callback(null, true);
+// 			} else {
+// 				callback(new Error("Not allowed by CORS"));
+// 			}
+// 		},
+// 		credentials: true,
+// 	}
+app.use(cors());
 
 //defines type and amount of information
 app.use(morgan("dev"));
