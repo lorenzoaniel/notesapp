@@ -10,6 +10,7 @@ import { getLoggedInUser, logout, selectUserApi } from "../../redux/features/use
 
 import Item from "./Item";
 import { useNavigate } from "react-router";
+import { resetNotes } from "../../redux/features/noteApiSlice";
 
 const Navbar: React.FC = () => {
 	const user = useAppSelector(selectUserApi).user;
@@ -37,8 +38,9 @@ const Navbar: React.FC = () => {
 					<>
 						<LinkSecondary>Signed in as: {user.username}</LinkSecondary>
 						<Item
-							handleClick={() => {
-								dispatch(logout());
+							handleClick={async () => {
+								await dispatch(logout());
+								await dispatch(resetNotes()); //so that previous user notes are not used
 							}}
 						>
 							<LinkPrimary>Log Out</LinkPrimary>
