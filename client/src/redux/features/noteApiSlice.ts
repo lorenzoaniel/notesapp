@@ -1,15 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { TypeNote, NoteUpdate } from "../../models/note";
+import { ConflictError, UnauthorizedError } from "../../errors/http_error";
 
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
-	const res = await fetch(input, init);
-	if (res.ok) {
-		return res;
+	const response = await fetch(input, { ...init, credentials: "include" });
+	if (response.ok) {
+		return response;
 	} else {
-		const errBdy = await res.json();
-		alert(errBdy.error);
-		throw Error(errBdy.error);
+		const errorBody = await response.json();
+		const errorMessage = errorBody.error;
+		if (response.status === 401) {
+			throw new UnauthorizedError(errorMessage);
+		} else if (response.status === 409) {
+			throw new ConflictError(errorMessage);
+		} else {
+			throw Error("Request failed with status: " + response.status + " message: " + errorMessage);
+		}
 	}
 };
 
@@ -58,7 +65,11 @@ const initialState: InitialState = {
 export const noteApiSlice = createSlice({
 	name: "noteApiSlice",
 	initialState,
-	reducers: {},
+	reducers: {
+		resetNotes: (state) => {
+			state.notes = [];
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchNotes.fulfilled, (state, action) => {
@@ -79,6 +90,8 @@ export const noteApiSlice = createSlice({
 			});
 	},
 });
+
+export const { resetNotes } = noteApiSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectNoteApi = (state: RootState) => state.noteApiSlice.notes;
