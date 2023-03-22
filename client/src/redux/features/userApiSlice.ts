@@ -17,8 +17,7 @@ const initialState: InitialState = {
 };
 
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
-	//credentials: "include"
-	const response = await fetch(input, { ...init });
+	const response = await fetch(input, { ...init, credentials: "include" });
 	if (response.ok) {
 		return response;
 	} else {

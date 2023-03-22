@@ -4,8 +4,7 @@ import { TypeNote, NoteUpdate } from "../../models/note";
 import { ConflictError, UnauthorizedError } from "../../errors/http_error";
 
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
-	// /credentials: "include"
-	const response = await fetch(input, { ...init });
+	const response = await fetch(input, { ...init, credentials: "include" });
 	if (response.ok) {
 		return response;
 	} else {
