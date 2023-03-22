@@ -1,2 +1,6 @@
 [build]
-  functions = "server/dist/index.js"
+  command = "yarn build"
+  functions = "server/"
+
+[build.environment]
+  NODE_VERSION = "14.x"
