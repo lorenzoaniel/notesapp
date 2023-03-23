@@ -39,7 +39,7 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
 export const getLoggedInUser = createAsyncThunk(
 	"userApiSlice/getLoggedInUser",
 	async (): Promise<User> => {
-		const res = await fetchData(`${URL}/api/users`, { method: "GET", credentials: "include" });
+		const res = await fetchData(`${URL}/api/users`, { method: "GET" });
 		return res.json();
 	}
 );
@@ -60,7 +60,6 @@ export const signUp = createAsyncThunk(
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(credentials),
-			credentials: "include", // Ensure that cookies are sent in the request
 		});
 		return res.json();
 	}
@@ -81,14 +80,13 @@ export const login = createAsyncThunk(
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(credentials),
-			credentials: "include", // Ensure that cookies are sent in the request
 		});
 		return res.json();
 	}
 );
 
 export const logout = createAsyncThunk("userApiSlice/logout", async () => {
-	await fetchData(`${URL}/api/users/logout`, { method: "POST", credentials: "include" });
+	await fetchData(`${URL}/api/users/logout`, { method: "POST" });
 });
 
 export const userApiSlice = createSlice({

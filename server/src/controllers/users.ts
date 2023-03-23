@@ -115,7 +115,7 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
 
 		//if successful for all checks establish session
 		req.session.userId = user._id;
-		res.setHeader("Referrer-Policy", "strict-origin");
+
 		//return res for front-end (201 means created btw)
 		res.status(201).json(user);
 	} catch (error) {
