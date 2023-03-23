@@ -6,7 +6,7 @@ import { ConflictError, UnauthorizedError } from "../../errors/http_error";
 const URL = "https://portfolionotesapp.onrender.com";
 
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
-	const response = await fetch(input, { ...init, credentials: "include" });
+	const response = await fetch(input, { ...init });
 	if (response.ok) {
 		return response;
 	} else {
@@ -25,6 +25,7 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
 export const fetchNotes = createAsyncThunk("noteApiSlice/fetchNotes", async () => {
 	const res = await fetchData(`${URL}/api/notes`, {
 		method: "GET",
+		credentials: "include",
 	});
 	return await res.json();
 });
@@ -36,6 +37,7 @@ export const createNote = createAsyncThunk("noteApiSlice/createNote", async () =
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ title: "No Title", text: "No Text" }),
+		credentials: "include",
 	});
 	return await res.json();
 });
@@ -52,6 +54,7 @@ export const updateNote = createAsyncThunk("noteApiSlice/updateNote", async (not
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ title: note.title, text: note.text }),
+		credentials: "include",
 	});
 	return await res.json();
 });

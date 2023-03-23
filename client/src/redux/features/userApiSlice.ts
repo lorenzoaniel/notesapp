@@ -19,7 +19,7 @@ const initialState: InitialState = {
 };
 
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
-	const response = await fetch(input, { ...init, credentials: "include" });
+	const response = await fetch(input, { ...init });
 	if (response.ok) {
 		return response;
 	} else {
@@ -39,7 +39,7 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
 export const getLoggedInUser = createAsyncThunk(
 	"userApiSlice/getLoggedInUser",
 	async (): Promise<User> => {
-		const res = await fetchData(`${URL}/api/users`, { method: "GET" });
+		const res = await fetchData(`${URL}/api/users`, { method: "GET", credentials: "include" });
 		return res.json();
 	}
 );
@@ -88,7 +88,7 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk("userApiSlice/logout", async () => {
-	await fetchData(`${URL}/api/users/logout`, { method: "POST" });
+	await fetchData(`${URL}/api/users/logout`, { method: "POST", credentials: "include" });
 });
 
 export const userApiSlice = createSlice({
