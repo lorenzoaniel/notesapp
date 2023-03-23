@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { User } from "../../models/user";
-import { ConflictError, UnauthorizedError } from "../../errors/http_error";
+import { fetchData } from "../../utils/fetchData";
 
 const URL = "https://portfolionotesapp.onrender.com";
 
@@ -16,23 +16,6 @@ const initialState: InitialState = {
 		useremail: null,
 	},
 	errors: undefined,
-};
-
-const fetchData = async (input: RequestInfo, init?: RequestInit) => {
-	const response = await fetch(input, { ...init });
-	if (response.ok) {
-		return response;
-	} else {
-		const errorBody = await response.json();
-		const errorMessage = errorBody.error;
-		if (response.status === 401) {
-			throw new UnauthorizedError(errorMessage);
-		} else if (response.status === 409) {
-			throw new ConflictError(errorMessage);
-		} else {
-			throw Error("Request failed with status: " + response.status + " message: " + errorMessage);
-		}
-	}
 };
 
 //grabs users session
@@ -56,9 +39,6 @@ export const signUp = createAsyncThunk(
 	async (credentials: SignUpCreds): Promise<User> => {
 		const res = await fetchData(`${URL}/api/users/signup`, {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
 			body: JSON.stringify(credentials),
 		});
 		return res.json();
@@ -76,9 +56,6 @@ export const login = createAsyncThunk(
 	async (credentials: LoginCreds): Promise<User> => {
 		const res = await fetchData(`${URL}/api/users/login`, {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
 			body: JSON.stringify(credentials),
 		});
 		return res.json();

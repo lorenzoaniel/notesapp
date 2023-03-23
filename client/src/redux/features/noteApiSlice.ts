@@ -1,26 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { TypeNote, NoteUpdate } from "../../models/note";
-import { ConflictError, UnauthorizedError } from "../../errors/http_error";
+import { fetchData } from "../../utils/fetchData";
 
 const URL = "https://portfolionotesapp.onrender.com";
-
-const fetchData = async (input: RequestInfo, init?: RequestInit) => {
-	const response = await fetch(input, { ...init });
-	if (response.ok) {
-		return response;
-	} else {
-		const errorBody = await response.json();
-		const errorMessage = errorBody.error;
-		if (response.status === 401) {
-			throw new UnauthorizedError(errorMessage);
-		} else if (response.status === 409) {
-			throw new ConflictError(errorMessage);
-		} else {
-			throw Error("Request failed with status: " + response.status + " message: " + errorMessage);
-		}
-	}
-};
 
 export const fetchNotes = createAsyncThunk("noteApiSlice/fetchNotes", async () => {
 	const res = await fetchData(`${URL}/api/notes`, {
@@ -32,9 +15,6 @@ export const fetchNotes = createAsyncThunk("noteApiSlice/fetchNotes", async () =
 export const createNote = createAsyncThunk("noteApiSlice/createNote", async () => {
 	const res = await fetchData(`${URL}/api/notes`, {
 		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
 		body: JSON.stringify({ title: "No Title", text: "No Text" }),
 	});
 	return await res.json();
@@ -48,9 +28,6 @@ export const deleteNote = createAsyncThunk("noteApiSlice/deleteNote", async (not
 export const updateNote = createAsyncThunk("noteApiSlice/updateNote", async (note: NoteUpdate) => {
 	const res = await fetchData(`${URL}/api/notes/${note._id}`, {
 		method: "PATCH",
-		headers: {
-			"Content-Type": "application/json",
-		},
 		body: JSON.stringify({ title: note.title, text: note.text }),
 	});
 	return await res.json();
