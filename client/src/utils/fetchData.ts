@@ -5,12 +5,10 @@ export const fetchData = async (input: RequestInfo, init?: RequestInit) => {
 		...init,
 		headers: {
 			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "https://animated-melba-f0cb96.netlify.app",
-			"Access-Control-Allow-Headers": "Content-Type",
 			Referer: "https://animated-melba-f0cb96.netlify.app",
 		},
 		credentials: "include",
-		mode: "cors",
+		mode: "same-origin",
 		referrerPolicy: "strict-origin-when-cross-origin",
 	});
 	if (response.ok) {

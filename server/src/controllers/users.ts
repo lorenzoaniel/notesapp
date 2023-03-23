@@ -11,6 +11,7 @@ export const getAuthUser: RequestHandler = async (req, res, next) => {
 	try {
 		//once we have verified that there is still an active session id since it is still in database we can grab
 		const user = await UserModel.findById(req.session.userId).select("+useremail").exec();
+		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.status(200).json(user);
 	} catch (error) {
 		next(error);
@@ -66,7 +67,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
 		});
 
 		req.session.userId = newUser._id;
-
+		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.status(201).json(newUser);
 	} catch (error) {
 		next(error);
@@ -117,6 +118,7 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
 		req.session.userId = user._id;
 
 		//return res for front-end (201 means created btw)
+		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.status(201).json(user);
 	} catch (error) {
 		next(error);
