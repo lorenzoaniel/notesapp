@@ -35,7 +35,7 @@ app.use(
 		saveUninitialized: false,
 		cookie: {
 			maxAge: 60 * 60 * 1000, //in miliseconds this translates to an hour
-			secure: "auto",
+			secure: true,
 			sameSite: "none",
 		},
 		rolling: true,
