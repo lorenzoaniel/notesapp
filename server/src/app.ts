@@ -25,6 +25,8 @@ app.use(
 			}
 		},
 		credentials: true,
+		exposedHeaders: ["Access-Control-Allow-Origin"],
+		optionsSuccessStatus: 200,
 	})
 );
 
