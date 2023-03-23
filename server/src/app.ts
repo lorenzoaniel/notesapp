@@ -25,9 +25,6 @@ app.use(
 			}
 		},
 		credentials: true,
-		// Add the following headers to the response
-		exposedHeaders: ["Access-Control-Allow-Origin"],
-		optionsSuccessStatus: 200,
 	})
 );
 
