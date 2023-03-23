@@ -60,6 +60,7 @@ export const signUp = createAsyncThunk(
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(credentials),
+			credentials: "include", // Ensure that cookies are sent in the request
 		});
 		return res.json();
 	}
@@ -80,21 +81,9 @@ export const login = createAsyncThunk(
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(credentials),
+			credentials: "include", // Ensure that cookies are sent in the request
 		});
-		const data = res.json();
-
-		// Check if the server sent a Set-Cookie header
-		const setCookieHeader = res.headers.get("Set-Cookie");
-		if (setCookieHeader) {
-			// Parse the Set-Cookie header to get the cookie name and value
-			const [cookieString] = setCookieHeader.split(";");
-			const [cookieName, cookieValue] = cookieString.split("=");
-
-			// Set the cookie in the browser's cookie store
-			document.cookie = `${cookieName}=${cookieValue}; path=/`;
-		}
-
-		return data;
+		return res.json();
 	}
 );
 
