@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
-import { Navigate, Outlet, Route, Routes, redirect, useLocation } from "react-router";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router";
 
 import { GlobalStyle } from "./styles/GlobalStyle";
 import base from "./styles/themes/base";
@@ -12,7 +12,7 @@ import Loading from "./pages/Loading/Loading";
 
 const Layout = lazy(() => import("./components/Layout"));
 const Home = lazy(() => import("./pages/home/Home"));
-const Privacy = lazy(() => import("./pages/privacy/Privacy"));
+const Info = lazy(() => import("./pages/info/Info"));
 
 const App: React.FC = () => {
 	const user = useAppSelector(selectUserApi).user;
@@ -48,7 +48,7 @@ const App: React.FC = () => {
 					>
 						<Route index element={<Home />} />
 						<Route path="home" element={<Home />} />
-						<Route path="privacy" element={<Privacy />} />
+						<Route path="info" element={<Info />} />
 						<Route
 							path="loginorsignup"
 							element={user.username ? <Navigate to={`/home`} replace={true} /> : <LoginOrSignUp />}
