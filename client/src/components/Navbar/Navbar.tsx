@@ -28,10 +28,10 @@ const Navbar: React.FC = () => {
 				</Item>
 				<Item
 					handleClick={() => {
-						navigate("/privacy");
+						navigate("/info");
 					}}
 				>
-					<LinkSecondary>Privacy</LinkSecondary>
+					<LinkSecondary>Info</LinkSecondary>
 				</Item>
 				<ItemFiller />
 				{user.username ? (
