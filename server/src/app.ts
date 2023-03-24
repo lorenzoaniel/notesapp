@@ -27,6 +27,8 @@ app.use(
 //catches json and enables json POSTS
 app.use(express.json());
 
+app.set("trust proxy", 1);
+
 //in conjunction with userRoutes creates session for each client
 app.use(
 	session({
@@ -35,8 +37,8 @@ app.use(
 		saveUninitialized: false,
 		cookie: {
 			maxAge: 60 * 60 * 1000, //in miliseconds this translates to an hour
-			secure: false,
-			sameSite: "lax",
+			secure: true,
+			sameSite: "none",
 		},
 		rolling: true,
 		store: MongoStore.create({
