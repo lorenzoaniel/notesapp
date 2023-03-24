@@ -1,4 +1,4 @@
-import { requiresAuth } from "./middleware/auth"; //authHeaders,
+import { requiresAuth, authHeaders } from "./middleware/auth"; //
 import "dotenv/config"; //used to load env vars from env file
 import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
@@ -49,7 +49,7 @@ app.use(
 );
 
 //middleware catches requests going to this endpoint aand forwwards to notesRoutes
-app.use("/api/users", userRoutes); //authHeaders,
+app.use("/api/users", authHeaders, userRoutes);
 //auth middleware requiresAuth at base of route
 app.use("/api/notes", requiresAuth, notesRoutes);
 
