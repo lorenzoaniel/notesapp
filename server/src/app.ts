@@ -36,7 +36,7 @@ app.use(
 		cookie: {
 			maxAge: 60 * 60 * 1000, //in miliseconds this translates to an hour
 
-			sameSite: false,
+			sameSite: "none",
 		},
 		rolling: true,
 		store: MongoStore.create({
