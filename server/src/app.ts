@@ -1,4 +1,4 @@
-import { authHeaders, requiresAuth } from "./middleware/auth";
+import { requiresAuth } from "./middleware/auth"; //authHeaders,
 import "dotenv/config"; //used to load env vars from env file
 import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
@@ -27,6 +27,7 @@ app.use(
 //catches json and enables json POSTS
 app.use(express.json());
 
+//needs this for cookies to save in i assume hosting on render.com otherwise this works without on local development
 app.set("trust proxy", 1);
 
 //in conjunction with userRoutes creates session for each client
@@ -48,7 +49,7 @@ app.use(
 );
 
 //middleware catches requests going to this endpoint aand forwwards to notesRoutes
-app.use("/api/users", authHeaders, userRoutes);
+app.use("/api/users", userRoutes); //authHeaders,
 //auth middleware requiresAuth at base of route
 app.use("/api/notes", requiresAuth, notesRoutes);
 

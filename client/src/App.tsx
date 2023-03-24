@@ -8,6 +8,7 @@ import LoginOrSignUp from "./pages/authentication/LoginOrSignUp";
 import { AnimatePresence } from "framer-motion";
 import { getLoggedInUser, selectUserApi } from "./redux/features/userApiSlice";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import Loading from "./pages/Loading/Loading";
 
 const Layout = lazy(() => import("./components/Layout"));
 const Home = lazy(() => import("./pages/home/Home"));
@@ -33,7 +34,7 @@ const App: React.FC = () => {
 		<ThemeProvider theme={base}>
 			<GlobalStyle />
 
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense fallback={<Loading />}>
 				<Routes key={location.pathname} location={location}>
 					<Route
 						path="/"
@@ -52,6 +53,7 @@ const App: React.FC = () => {
 							path="loginorsignup"
 							element={user.username ? <Navigate to={`/home`} replace={true} /> : <LoginOrSignUp />}
 						/>
+						<Route path="*" element={<Home />} />
 					</Route>
 				</Routes>
 			</Suspense>
