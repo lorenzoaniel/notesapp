@@ -14,6 +14,7 @@ const Loading: React.FC = () => {
 const Main = styled(motion.section)(
 	({ theme }) => `
 	${theme.mixins.flex.flxCntrCntr}
+	background: rgb(${theme.color.secondary.light});
 	height: 100%;
 	padding: 5rem;
 	overflow: hidden;
