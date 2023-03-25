@@ -21,7 +21,9 @@ const App: React.FC = () => {
 
 	useEffect(() => {
 		const auth = async () => {
+			const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 			try {
+				if (isSafari) document.requestStorageAccess();
 				await dispatch(getLoggedInUser());
 			} catch (error) {
 				console.log(error);
