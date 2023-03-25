@@ -26,7 +26,7 @@ const Main = styled(motion.section)(
 	${theme.mixins.flex.flxCntrCntr}
 	height: 100%;
 	padding: 5rem;
-	overflow: hidden;
+	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
 

@@ -56,7 +56,7 @@ const Home: React.FC = () => {
 					{isSafari ? (
 						<LoginPrompt variants={_MotionVariants.LoginPrompt}>
 							{
-								"Unfortunately this app does not work on safari, unless I register a subdomain which costs money. If you would like to try other browsers: Chrome, Firefox and Edge will work."
+								"Unfortunately this app does not work on Safari or IOS mobile, unless I register a custom domain for the front-end and point the backend using a subdomain which costs money. If you would like to try the app use other desktop browsers: Chrome, Firefox and Edge will work."
 							}
 						</LoginPrompt>
 					) : (
