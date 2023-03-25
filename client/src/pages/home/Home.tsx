@@ -15,6 +15,7 @@ const Home: React.FC = () => {
 	const notes = useAppSelector(selectNoteApi);
 	const dispatch = useAppDispatch();
 	const [showNotes, setShowNotes] = useState<ReactElement[]>([]);
+	const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 	const _createNotes = async (noteArray: TypeNote[]) => {
 		await dispatch(fetchNotes());
@@ -51,11 +52,21 @@ const Home: React.FC = () => {
 					<Board>{showNotes}</Board>
 				</>
 			) : (
-				<LoginPrompt variants={_MotionVariants.LoginPrompt}>
-					{
-						"Please Log in or Sign up. If you would like to test the app here are some test credentials: username: testuser, password: testpass"
-					}
-				</LoginPrompt>
+				<>
+					{isSafari ? (
+						<LoginPrompt variants={_MotionVariants.LoginPrompt}>
+							{
+								"Unfortunately this app does not work on safari, unless I register a subdomain which costs money. If you would like to try otherr browsers: Chrome, Firefox and Edge will work."
+							}
+						</LoginPrompt>
+					) : (
+						<LoginPrompt variants={_MotionVariants.LoginPrompt}>
+							{
+								"Please Log in or Sign up. If you would like to test the app here are some test credentials: username: testuser, password: testpass"
+							}
+						</LoginPrompt>
+					)}
+				</>
 			)}
 		</Main>
 	);

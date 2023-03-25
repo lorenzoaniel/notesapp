@@ -22,10 +22,6 @@ const App: React.FC = () => {
 	useEffect(() => {
 		const auth = async () => {
 			try {
-				if (!!document.hasStorageAccess) {
-					document.requestStorageAccess();
-					window.location.reload();
-				}
 				await dispatch(getLoggedInUser());
 			} catch (error) {
 				console.log(error);
