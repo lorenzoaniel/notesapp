@@ -62,7 +62,7 @@ const Home: React.FC = () => {
 					) : (
 						<LoginPrompt variants={_MotionVariants.LoginPrompt}>
 							{
-								"Please Log in or Sign up. If you would like to test the app here are some test credentials: username: testuser, password: testpass"
+								"Please Log in or Sign up. If you would like to test the app here are some test credentials: username: testuser, password: testpass. You might have to wait a bit or try a few times since the back end is hosted on a free tier on render.com and will have to boot up after inactivity."
 							}
 						</LoginPrompt>
 					)}
